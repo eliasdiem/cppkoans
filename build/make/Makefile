@@ -10,12 +10,18 @@ SRC_DIR = ../../src
 INCLUDES = ${INC_DIR}/cppkoans.h ${INC_DIR}/koangtestprinter.h
 
 
-all: cppkoans run
+all: $(SRC_DIR)/koans cppkoans run
 
 .PHONY: clean
 
 clean:
 	rm -f cppkoans *.o
+
+# set off (again) to walk the path to enlightenment
+setoff $(SRC_DIR)/koans:
+	rm -rf $(SRC_DIR)/koans
+	mkdir -p $(SRC_DIR)/koans
+	cp $(SRC_DIR)/library/*.cpp $(SRC_DIR)/koans/
 
 cppkoans.o: $(SRC_DIR)/cppkoans.cpp ${INCLUDES}
 	$(CXX) $(CPPFLAGS) -I$(INC_DIR) -isystem ${GTEST_INC_DIR} $(CXXFLAGS) -c $(SRC_DIR)/cppkoans.cpp
@@ -23,8 +29,8 @@ cppkoans.o: $(SRC_DIR)/cppkoans.cpp ${INCLUDES}
 koangtestprinter.o: $(SRC_DIR)/koangtestprinter.cpp ${INCLUDES}
 	$(CXX) $(CPPFLAGS) -I$(INC_DIR) -isystem ${GTEST_INC_DIR} $(CXXFLAGS) -c $(SRC_DIR)/koangtestprinter.cpp
 
-pathtoenlightenment.o: $(SRC_DIR)/koans/pathtoenlightenment.cpp ${INCLUDES}
-	$(CXX) $(CPPFLAGS) -I$(INC_DIR) -isystem ${GTEST_INC_DIR} $(CXXFLAGS) -c $(SRC_DIR)/koans/pathtoenlightenment.cpp
+pathtoenlightenment.o: $(SRC_DIR)/pathtoenlightenment.cpp ${INCLUDES}
+	$(CXX) $(CPPFLAGS) -I$(INC_DIR) -isystem ${GTEST_INC_DIR} $(CXXFLAGS) -c $(SRC_DIR)/pathtoenlightenment.cpp
 
 
 asserts.o: $(SRC_DIR)/koans/asserts.cpp ${INCLUDES}
